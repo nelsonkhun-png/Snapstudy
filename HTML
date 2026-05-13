@@ -1,0 +1,644 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snap Study – AI Tutor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     SCREEN: LOGIN / SIGN UP
+══════════════════════════════════ -->
+<div id="s-login" class="screen active">
+  <div class="sb login-wrap">
+    <div class="login-logo">
+      <div class="logo-box">📸</div>
+      <div class="logo-txt"><span>Snap</span>Study</div>
+    </div>
+    <div class="login-card">
+      <div class="tab-switch">
+        <button class="tbtn active" id="tab-login" onclick="swTab('login')">Log In</button>
+        <button class="tbtn" id="tab-signup" onclick="swTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <h2>Welcome back! 👋</h2>
+        <p class="sub">Log in to continue your learning streak.</p>
+        <div class="fg">
+          <label class="fl">Email</label>
+          <input class="fi" type="email" id="login-email" placeholder="you@example.com" />
+          <span class="err" id="err-lemail"></span>
+        </div>
+        <div class="fg">
+          <label class="fl">Password</label>
+          <input class="fi" type="password" id="login-pass" placeholder="••••••••" />
+          <span class="err" id="err-lpass"></span>
+        </div>
+        <button class="btn by bfull" onclick="doLogin()">Log In →</button>
+        <div class="divider">or continue without an account</div>
+        <button class="btn bg bfull" onclick="guestLogin()">Explore as Guest</button>
+      </div>
+
+      <!-- SIGN UP FORM -->
+      <div id="signup-form" style="display:none">
+        <h2>Join FREE today! 🌟</h2>
+        <p class="sub">No payment ever. No hidden features.</p>
+        <div class="fg">
+          <label class="fl">Full Name</label>
+          <input class="fi" id="su-name" placeholder="e.g. Nelson Khan" />
+          <span class="err" id="err-suname"></span>
+        </div>
+        <div class="fg">
+          <label class="fl">Email</label>
+          <input class="fi" type="email" id="su-email" placeholder="you@example.com" />
+          <span class="err" id="err-suemail"></span>
+        </div>
+        <div class="fg">
+          <label class="fl">Password (min 6 chars)</label>
+          <input class="fi" type="password" id="su-pass" placeholder="Create a strong password" />
+          <span class="err" id="err-supass"></span>
+        </div>
+        <div class="fg">
+          <label class="fl">Date of Birth</label>
+          <input class="fi" type="date" id="su-dob" />
+          <span class="err" id="err-sudob"></span>
+        </div>
+        <button class="btn by bfull" onclick="doSignup()">Create Account 🎉</button>
+      </div>
+    </div>
+    <p class="login-footer">snapstudyai@gmail.com &nbsp;·&nbsp; 04800 300 200 &nbsp;·&nbsp; Free Forever</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: HOME
+══════════════════════════════════ -->
+<div id="s-home" class="screen">
+  <div class="tb">
+    <div class="logo" onclick="gt('s-home')">
+      <div class="logo-box">📸</div>
+      <div class="logo-txt"><span>Snap</span>Study</div>
+    </div>
+    <div class="tb-right">
+      <button class="icon-btn" onclick="gt('s-profile')">👤</button>
+      <button class="icon-btn" onclick="gt('s-settings')">⚙️</button>
+    </div>
+  </div>
+  <div class="sb">
+    <div class="hero">
+      <div class="hero-badge">🔥 <span id="streak-count">7</span> Day Streak</div>
+      <h1>Hey <span id="uname">Student</span>,<br>Ready to <span>Snap Study?</span></h1>
+      <p>Your real AI tutor is always on — ask anything, completely free.</p>
+      <div class="hero-actions">
+        <button class="btn by" onclick="gt('s-chat')">💬 Ask AI Tutor</button>
+        <button class="btn bg" onclick="gt('s-scan')">📷 Scan Homework</button>
+      </div>
+    </div>
+
+    <div class="sl">Jump In</div>
+    <div class="feat-grid">
+      <div class="feat-card" onclick="gt('s-subjects')"><div class="fci">🧑‍🏫</div><div class="fct">Subject Tutors</div><div class="fcs">Pick your mode</div></div>
+      <div class="feat-card" onclick="gt('s-quiz')"><div class="fci">🧩</div><div class="fct">Quiz Me</div><div class="fcs">Test yourself</div></div>
+      <div class="feat-card" onclick="gt('s-flash')"><div class="fci">🃏</div><div class="fct">Flashcards</div><div class="fcs">Quick revision</div></div>
+      <div class="feat-card" onclick="gt('s-progress')"><div class="fci">📈</div><div class="fct">Progress</div><div class="fcs">Track growth</div></div>
+      <div class="feat-card" onclick="gt('s-plan')"><div class="fci">📅</div><div class="fct">Planner</div><div class="fcs">Stay organised</div></div>
+      <div class="feat-card" onclick="gt('s-voice')"><div class="fci">🎙️</div><div class="fct">Voice Chat</div><div class="fcs">Talk to AI</div></div>
+      <div class="feat-card" onclick="gt('s-forum')"><div class="fci">💬</div><div class="fct">Community</div><div class="fcs">Help others</div></div>
+      <div class="feat-card" onclick="gt('s-timer')"><div class="fci">⏱️</div><div class="fct">Focus Timer</div><div class="fcs">Pomodoro</div></div>
+    </div>
+
+    <div class="sl">Today's Plan</div>
+    <div id="home-tasks"></div>
+  </div>
+  <nav class="bn">
+    <div class="bni active" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: AI CHAT
+══════════════════════════════════ -->
+<div id="s-chat" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">💬 AI Tutor</span>
+    <select class="subj-select" id="subj-sel" onchange="onSubjectChange()">
+      <option value="General">🌐 General</option>
+      <option value="Maths">🔢 Maths</option>
+      <option value="Science">🔬 Science</option>
+      <option value="History">📜 History</option>
+      <option value="Language">🌍 Language</option>
+    </select>
+  </div>
+  <div class="chat-body">
+    <div id="chat-msgs" class="chat-msgs"></div>
+    <div class="chat-input-row">
+      <input class="fi" id="chat-input" placeholder="Ask anything… e.g. what is 5+5?" onkeydown="if(event.key==='Enter')sendMsg()" />
+      <button class="send-btn" id="send-btn" onclick="sendMsg()">➤</button>
+    </div>
+    <div class="quick-chips">
+      <div class="chip cm" onclick="aq('What is 5 + 5? Explain how basic addition works.')">5+5?</div>
+      <div class="chip cs" onclick="aq('Explain photosynthesis step by step.')">Photosynthesis</div>
+      <div class="chip ch" onclick="aq('What caused World War 1? Explain using the MAIN framework.')">WW1</div>
+      <div class="chip cl" onclick="aq('What is the difference between a simile and a metaphor? Give examples.')">Simile vs Metaphor</div>
+      <div class="chip cm" onclick="aq('Solve x squared minus 5x plus 6 equals 0 step by step.')">Quadratics</div>
+    </div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni active" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: HOMEWORK SCANNER
+══════════════════════════════════ -->
+<div id="s-scan" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">📷 Homework Scanner</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="info-card">
+      <div class="info-title">🌟 99.9% Accuracy Guarantee</div>
+      <div class="info-sub">AI reads and explains your questions step by step using trusted educational sources.</div>
+    </div>
+    <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+      <div style="font-size:2.6rem;margin-bottom:10px;">📸</div>
+      <strong>Tap to upload your question</strong>
+      <p>Photo or screenshot accepted</p>
+    </div>
+    <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleUpload(event)" />
+
+    <div id="scan-result" style="display:none" class="card">
+      <div class="scan-label teal">📋 Question Detected</div>
+      <div id="scan-q" class="scan-q-text"></div>
+      <div class="scan-label yellow">🧠 Step-by-Step AI Solution</div>
+      <div id="scan-a" class="scan-answer"></div>
+      <button class="btn bt bsm" style="margin-top:12px" onclick="gt('s-chat')">💬 Ask More About This</button>
+    </div>
+
+    <div class="sl">Or type your question below</div>
+    <div class="fg"><textarea class="fta" id="typed-q" placeholder="Type your homework question here…"></textarea></div>
+    <button class="btn by bfull" onclick="analyzeTyped()">🔍 Get AI Explanation</button>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni active" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: SUBJECT TUTORS
+══════════════════════════════════ -->
+<div id="s-subjects" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">🧑‍🏫 Subject Tutors</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <p class="sub" style="margin-bottom:16px">Pick a specialised AI tutor trained just for your subject. Each one uses a different teaching style.</p>
+    <div class="tutor-grid">
+      <div class="tutor-card tmath" onclick="openTutor('Maths','🔢','Maths')">
+        <div class="t-icon">🔢</div>
+        <div class="t-name">Maths Tutor</div>
+        <div class="t-sub">Algebra · Calculus · Statistics</div>
+      </div>
+      <div class="tutor-card tsci" onclick="openTutor('Science','🔬','Science')">
+        <div class="t-icon">🔬</div>
+        <div class="t-name">Science Tutor</div>
+        <div class="t-sub">Biology · Chemistry · Physics</div>
+      </div>
+      <div class="tutor-card thist" onclick="openTutor('History','📜','History')">
+        <div class="t-icon">📜</div>
+        <div class="t-name">History Tutor</div>
+        <div class="t-sub">Modern · Ancient · World</div>
+      </div>
+      <div class="tutor-card tlang" onclick="openTutor('Language','🌍','Language')">
+        <div class="t-icon">🌍</div>
+        <div class="t-name">Languages Tutor</div>
+        <div class="t-sub">English · Grammar · Writing</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <div class="ct">✅ Verified Sources</div>
+      <div class="cm">Every answer is cross-referenced with trusted educational databases for maximum accuracy.</div>
+    </div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: QUIZ
+══════════════════════════════════ -->
+<div id="s-quiz" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">🧩 Quiz Mode</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="sl">Choose Subject</div>
+    <div class="chip-row" id="quiz-chips">
+      <div class="chip ca active-chip" onclick="setQuizSubj('All',this)">All</div>
+      <div class="chip cm" onclick="setQuizSubj('Maths',this)">🔢 Maths</div>
+      <div class="chip cs" onclick="setQuizSubj('Science',this)">🔬 Science</div>
+      <div class="chip ch" onclick="setQuizSubj('History',this)">📜 History</div>
+      <div class="chip cl" onclick="setQuizSubj('Language',this)">🌍 Language</div>
+    </div>
+    <div class="quiz-meta">
+      <span id="q-num">Question 1 of 5</span>
+      <span id="q-score">Score: 0</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="q-prog" style="width:0%"></div></div>
+    <div class="card">
+      <div class="quiz-q" id="q-text">Loading question…</div>
+      <div id="q-opts"></div>
+      <div class="quiz-fb" id="q-fb" style="display:none"></div>
+    </div>
+    <button class="btn by bfull" id="q-next" style="display:none" onclick="nextQuizQ()">Next Question →</button>
+    <div id="quiz-end" style="display:none" class="card quiz-end-card">
+      <div style="font-size:2.5rem;margin-bottom:10px">🎉</div>
+      <div class="ct" id="quiz-end-title">Quiz Complete!</div>
+      <div class="cm" id="quiz-end-sub"></div>
+      <button class="btn by bfull" style="margin-top:14px" onclick="restartQuiz()">Play Again 🔁</button>
+    </div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: FLASHCARDS
+══════════════════════════════════ -->
+<div id="s-flash" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">🃏 Flashcards</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="fc-nav">
+      <button class="btn bg bsm" onclick="prevFC()">← Prev</button>
+      <span class="fc-counter" id="fc-counter">1 / 6</span>
+      <button class="btn bg bsm" onclick="nextFC()">Next →</button>
+    </div>
+    <div class="flip-wrap" id="fc-wrap" onclick="flipFC()">
+      <div class="flip-inner" id="fc-inner">
+        <div class="fc-front">
+          <div class="fc-label">❓ Question</div>
+          <div class="fc-text" id="fc-front-text">Tap to start</div>
+          <div class="fc-hint">Tap card to see answer</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-label">✅ Answer</div>
+          <div class="fc-text" id="fc-back-text">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-rate-row">
+      <button class="btn bsm" style="background:rgba(255,77,139,.15);color:#FF4D8B;border:2px solid #FF4D8B" onclick="rateFC('hard')">😓 Hard</button>
+      <button class="btn bsm" style="background:rgba(255,217,61,.1);color:#FFD93D;border:2px solid #FFD93D" onclick="rateFC('ok')">😊 Got It</button>
+      <button class="btn bsm" style="background:rgba(6,214,160,.1);color:#06D6A0;border:2px solid #06D6A0" onclick="rateFC('easy')">🌟 Easy</button>
+    </div>
+
+    <div class="sl">➕ Add Your Own Flashcard</div>
+    <div class="fg"><label class="fl">Question</label><input class="fi" id="new-fc-q" placeholder="Enter your question…" /></div>
+    <div class="fg"><label class="fl">Answer</label><input class="fi" id="new-fc-a" placeholder="Enter the answer…" /></div>
+    <button class="btn bt bfull" onclick="addFC()">➕ Add Flashcard</button>
+
+    <div class="sl" style="margin-top:20px">Your Flashcard Deck (<span id="fc-deck-count">6</span> cards)</div>
+    <div id="fc-deck-list"></div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: PROGRESS
+══════════════════════════════════ -->
+<div id="s-progress" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">📈 My Progress</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-num" id="p-sessions">0</div><div class="stat-lbl">Sessions</div></div>
+      <div class="stat-box"><div class="stat-num" id="p-streak">🔥0</div><div class="stat-lbl">Streak</div></div>
+      <div class="stat-box"><div class="stat-num" id="p-xp">0</div><div class="stat-lbl">XP</div></div>
+    </div>
+    <div class="sl">Quiz Performance by Subject</div>
+    <div id="progress-bars"></div>
+    <div class="sl">Badges Earned</div>
+    <div id="badge-row" class="badge-row"></div>
+    <div class="sl">Recent Activity</div>
+    <div id="activity-log" class="activity-log"></div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni active" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: PLANNER
+══════════════════════════════════ -->
+<div id="s-plan" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">📅 Study Planner</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="sl">Add New Task</div>
+    <div class="fg"><label class="fl">Subject</label>
+      <select class="fi" id="plan-subj">
+        <option>Mathematics</option><option>Science</option><option>History</option><option>Language</option><option>Other</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Task Description</label>
+      <input class="fi" id="plan-task" placeholder="e.g. Revise Chapter 5 – Forces" />
+      <span class="err" id="err-plan"></span>
+    </div>
+    <div class="fg"><label class="fl">Due Date</label><input class="fi" type="date" id="plan-date" /></div>
+    <div class="fg"><label class="fl">Estimated Time (minutes)</label>
+      <input class="fi" type="number" id="plan-time" placeholder="e.g. 30" min="5" max="240" />
+    </div>
+    <button class="btn by bfull" onclick="addTask()">➕ Add to Planner</button>
+    <div class="sl" style="margin-top:20px">Upcoming Tasks (<span id="task-count">0</span>)</div>
+    <div id="task-list"></div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: FOCUS TIMER
+══════════════════════════════════ -->
+<div id="s-timer" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">⏱️ Focus Timer</span>
+    <span></span>
+  </div>
+  <div class="sb" style="text-align:center">
+    <div class="sl">Pomodoro Study Timer</div>
+    <div class="timer-ring">
+      <svg class="timer-svg" viewBox="0 0 200 200">
+        <circle class="timer-bg-circle" cx="100" cy="100" r="88"/>
+        <circle class="timer-fg-circle" id="timer-fg" cx="100" cy="100" r="88"/>
+      </svg>
+      <div class="timer-center">
+        <div class="timer-time" id="timer-disp">25:00</div>
+        <div class="timer-lbl" id="timer-lbl">Focus Time</div>
+      </div>
+    </div>
+    <div class="timer-btns">
+      <button class="btn by" id="timer-start-btn" onclick="timerToggle()">▶ Start</button>
+      <button class="btn bg" onclick="timerReset()">↺ Reset</button>
+    </div>
+    <div class="chip-row" style="justify-content:center;margin-top:10px">
+      <div class="chip ca active-chip" onclick="setTimerMode(25,'Focus Time',this)">🎯 25 min</div>
+      <div class="chip cs" onclick="setTimerMode(5,'Short Break',this)">☕ 5 min</div>
+      <div class="chip cl" onclick="setTimerMode(15,'Long Break',this)">🌿 15 min</div>
+    </div>
+    <div class="card" style="margin-top:18px;text-align:left">
+      <div class="ct">💡 Pomodoro Technique</div>
+      <div class="cm">Study for 25 min → 5 min break → repeat. After 4 rounds take a 15 min break. Your brain consolidates learning during rest!</div>
+    </div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: VOICE CHAT
+══════════════════════════════════ -->
+<div id="s-voice" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">🎙️ Voice Chat</span>
+    <span></span>
+  </div>
+  <div class="sb" style="text-align:center;padding-top:32px">
+    <div class="voice-ring" id="voice-btn" onclick="toggleVoice()">🎙️</div>
+    <div class="voice-status" id="voice-status">Tap to speak to your AI tutor</div>
+    <p class="sub" style="max-width:280px;margin:0 auto 20px">Ask questions naturally — your Snap AI tutor is always listening!</p>
+    <div id="voice-transcript" class="card" style="display:none;text-align:left">
+      <div class="scan-label teal">You said:</div>
+      <div id="voice-said" style="font-size:.9rem;font-weight:700;margin-bottom:10px"></div>
+      <div class="scan-label yellow">AI Response:</div>
+      <div id="voice-reply" style="font-size:.84rem;color:#8892A4;line-height:1.6"></div>
+    </div>
+    <div class="card" style="margin-top:16px;text-align:left">
+      <div class="ct">💡 Try saying…</div>
+      <div class="cm">"Explain the water cycle"<br>"What is Newton's first law?"<br>"Help me understand fractions"<br>"Quiz me on World War 2"</div>
+    </div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: COMMUNITY FORUM
+══════════════════════════════════ -->
+<div id="s-forum" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">💬 Community Forum</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <input class="fi" id="forum-search" placeholder="🔍 Search discussions…" oninput="filterForum()" style="margin-bottom:12px" />
+    <button class="btn by bfull" style="margin-bottom:14px" onclick="toggleNewPost()">✏️ Ask the Community</button>
+    <div id="new-post-form" style="display:none" class="card">
+      <div class="fg"><label class="fl">Your Question / Tip</label>
+        <textarea class="fta" id="post-content" placeholder="What do you need help with?"></textarea>
+        <span class="err" id="err-post"></span>
+      </div>
+      <button class="btn bt bsm" onclick="submitPost()">📤 Post</button>
+    </div>
+    <div class="sl">Recent Discussions</div>
+    <div id="forum-posts"></div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: PROFILE
+══════════════════════════════════ -->
+<div id="s-profile" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">👤 My Profile</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="profile-hero">
+      <div class="profile-avatar" id="profile-avatar">🎓</div>
+      <div class="profile-name" id="profile-name">Student</div>
+      <div class="sub" id="profile-level">Level 1 Scholar · 0 XP</div>
+    </div>
+    <div class="sl">Choose Your Avatar</div>
+    <div class="emoji-grid" id="emoji-grid">
+      <span class="emoji-opt" onclick="pickEmoji('🎓',this)">🎓</span>
+      <span class="emoji-opt" onclick="pickEmoji('🧑‍🎓',this)">🧑‍🎓</span>
+      <span class="emoji-opt" onclick="pickEmoji('🦸',this)">🦸</span>
+      <span class="emoji-opt" onclick="pickEmoji('🧙',this)">🧙</span>
+      <span class="emoji-opt" onclick="pickEmoji('🤖',this)">🤖</span>
+      <span class="emoji-opt" onclick="pickEmoji('🦊',this)">🦊</span>
+      <span class="emoji-opt" onclick="pickEmoji('🐉',this)">🐉</span>
+      <span class="emoji-opt" onclick="pickEmoji('🦁',this)">🦁</span>
+    </div>
+    <div class="fg"><label class="fl">Display Name</label><input class="fi" id="profile-name-input" placeholder="Your name" /></div>
+    <div class="fg"><label class="fl">AI Tutor Name</label><input class="fi" id="ai-name-input" placeholder="e.g. NELSON'S BOT!" /></div>
+    <button class="btn by bfull" onclick="saveProfile()">💾 Save Profile</button>
+    <div class="sl" style="margin-top:20px">Accessibility</div>
+    <div class="settings-group">
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(255,217,61,.15)">🔊</div><div><div class="si-name">Text-to-Speech</div><div class="si-sub">Read answers aloud</div></div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(6,214,160,.15)">🔡</div><div><div class="si-name">Large Font</div><div class="si-sub">Easier to read</div></div></div>
+        <div class="toggle" id="large-font-toggle" onclick="toggleLargeFont(this)"></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(255,77,139,.15)">🎨</div><div><div class="si-name">High Contrast</div><div class="si-sub">Better visibility</div></div></div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN: SETTINGS
+══════════════════════════════════ -->
+<div id="s-settings" class="screen">
+  <div class="tb">
+    <button class="tb-back" onclick="gb()">← Back</button>
+    <span class="tb-title">⚙️ Settings</span>
+    <span></span>
+  </div>
+  <div class="sb">
+    <div class="sl">Account</div>
+    <div class="settings-group">
+      <div class="settings-item" onclick="gt('s-profile')">
+        <div class="si-left"><div class="si-icon" style="background:rgba(29,184,168,.15)">👤</div><div><div class="si-name">Account Details</div><div class="si-sub">Edit profile & avatar</div></div></div>
+        <span style="color:#8892A4;font-size:1.1rem">›</span>
+      </div>
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(255,217,61,.15)">🔒</div><div><div class="si-name">Privacy & Data</div><div class="si-sub">Cloud sync & storage</div></div></div>
+        <span style="color:#8892A4;font-size:1.1rem">›</span>
+      </div>
+    </div>
+    <div class="sl">App Preferences</div>
+    <div class="settings-group">
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(255,107,53,.15)">🔔</div><div><div class="si-name">Break Reminders</div><div class="si-sub">Healthy study habits</div></div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(6,214,160,.15)">📴</div><div><div class="si-name">Offline Mode</div><div class="si-sub">Access saved lessons</div></div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(255,77,139,.15)">🎮</div><div><div class="si-name">Gamified Learning</div><div class="si-sub">Points, badges & streaks</div></div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(255,217,61,.15)">🔁</div><div><div class="si-name">Multi-Device Sync</div><div class="si-sub">Sync across devices</div></div></div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+    <div class="sl">Learning</div>
+    <div class="settings-group">
+      <div class="settings-item">
+        <div class="si-left"><div class="si-icon" style="background:rgba(29,184,168,.15)">🧑‍🏫</div><div><div class="si-name">Default Subject</div></div></div>
+        <select class="fi" style="width:auto;padding:7px 10px;font-size:.78rem;border:none;background:rgba(255,255,255,.08)">
+          <option>Mathematics</option><option>Science</option><option>History</option><option>Language</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn bfull" style="background:rgba(255,77,139,.15);color:#FF4D8B;border:2px solid #FF4D8B;margin-top:18px" onclick="doLogout()">🚪 Log Out</button>
+    <p style="text-align:center;color:#8892A4;font-size:.65rem;margin-top:14px">SnapStudy v2.0 · Free Forever · Powered by Claude AI ·&nbsp;snapstudyai@gmail.com</p>
+  </div>
+  <nav class="bn">
+    <div class="bni" onclick="gt('s-home')"><span class="ic">🏠</span>Home</div>
+    <div class="bni" onclick="gt('s-chat')"><span class="ic">💬</span>Chat</div>
+    <div class="bni" onclick="gt('s-scan')"><span class="ic">📷</span>Scan</div>
+    <div class="bni" onclick="gt('s-progress')"><span class="ic">📈</span>Progress</div>
+    <div class="bni active" onclick="gt('s-settings')"><span class="ic">⚙️</span>More</div>
+  </nav>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast-el"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
