@@ -1,1 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapStudy — Your AI Study Buddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<!-- ============ TOAST ============ -->
+<div id="toast"></div>
+
+<!-- ============ LOGIN ============ -->
+<div class="auth-wrap" id="view-login">
+  <div class="auth-card">
+    <div class="logo">
+      <svg width="34" height="34" viewBox="0 0 34 34"><rect x="2" y="4" width="24" height="24" rx="6" fill="#5F93D6"/><path d="M10 12h10M10 16h10M10 20h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="27" cy="8" r="6" fill="#E7B65C"/><path d="M25 8l1.4 1.4L29 6.8" stroke="#4A3300" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <div class="word">Snap<span>Study</span></div>
+    </div>
+    <h2>Welcome back</h2>
+    <p class="sub">Log in to keep your streak going</p>
+
+    <label for="li-email">Email</label>
+    <input type="email" id="li-email" placeholder="you@school.nsw.edu.au">
+    <label for="li-pass">Password</label>
+    <input type="password" id="li-pass" placeholder="••••••••">
+    <div class="error-msg" id="li-error"></div>
+    <button class="btn btn-primary btn-block" style="margin-top:8px;" onclick="handleLogin()">Log In →</button>
+    <button class="btn btn-outline btn-block" style="margin-top:10px;" onclick="demoLogin()">Try a demo account instead</button>
+    <div class="switch-line">New to SnapStudy? <a onclick="showAuth('signup')">Sign up here</a></div>
+  </div>
+</div>
+
+<!-- ============ SIGN UP ============ -->
+<div class="auth-wrap hidden" id="view-signup">
+  <div class="auth-card">
+    <div class="logo">
+      <svg width="34" height="34" viewBox="0 0 34 34"><rect x="2" y="4" width="24" height="24" rx="6" fill="#5F93D6"/><path d="M10 12h10M10 16h10M10 20h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="27" cy="8" r="6" fill="#E7B65C"/><path d="M25 8l1.4 1.4L29 6.8" stroke="#4A3300" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <div class="word">Snap<span>Study</span></div>
+    </div>
+    <h2>Join SnapStudy — it's free</h2>
+    <p class="sub">Your personal AI tutor, in a couple of clicks</p>
+
+    <label for="su-name">Name</label>
+    <input type="text" id="su-name" placeholder="Nelson Khun">
+    <label for="su-email">Email</label>
+    <input type="email" id="su-email" placeholder="you@school.nsw.edu.au">
+    <label for="su-pass">Password</label>
+    <input type="password" id="su-pass" placeholder="Create a password">
+    <label for="su-dob">Date of birth</label>
+    <input type="date" id="su-dob">
+    <label for="su-grade">Year level</label>
+    <select id="su-grade">
+      <option>Year 7</option><option>Year 8</option><option>Year 9</option>
+      <option selected>Year 10</option><option>Year 11</option><option>Year 12</option>
+    </select>
+    <div class="error-msg" id="su-error"></div>
+    <button class="btn btn-primary btn-block" style="margin-top:8px;" onclick="handleSignup()">Sign Up →</button>
+    <div class="switch-line">Already registered? <a onclick="showAuth('login')">Log in here</a></div>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app-shell">
+  <nav class="navbar">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 34 34"><rect x="2" y="4" width="24" height="24" rx="6" fill="#EAF4E6"/><path d="M10 12h10M10 16h10M10 20h6" stroke="#3B7A3B" stroke-width="2" stroke-linecap="round"/><circle cx="27" cy="8" r="6" fill="#E7B65C"/><path d="M25 8l1.4 1.4L29 6.8" stroke="#4A3300" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <div class="word">Snap<span>Study</span></div>
+    </div>
+    <div class="nav-links" id="nav-links">
+      <button class="nav-btn" data-view="dashboard" onclick="showView('dashboard')">Dashboard</button>
+      <button class="nav-btn" data-view="tutor" onclick="showView('tutor')">AI Tutor</button>
+      <button class="nav-btn" data-view="flashcards" onclick="showView('flashcards')">Flashcards</button>
+      <button class="nav-btn" data-view="summary" onclick="showView('summary')">Smart Summary</button>
+      <button class="nav-btn" data-view="streak" onclick="showView('streak')">Study Streak</button>
+      <button class="nav-btn" data-view="settings" onclick="showView('settings')">Settings</button>
+    </div>
+    <div class="nav-right">
+      <span class="greet" id="greet-name">Hi, Student 👋</span>
+      <button class="logout-btn" onclick="handleLogout()">Log out</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===== DASHBOARD ===== -->
+    <section class="view" id="view-dashboard">
+      <div class="page-head">
+        <h1 id="dash-greet">Welcome back 👋</h1>
+        <p>Falling behind? Not for long — here's everything SnapStudy can help with.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-pill"><div class="num" id="stat-streak">0</div><div class="lbl">day streak</div></div>
+        <div class="stat-pill"><div class="num" id="stat-questions">0</div><div class="lbl">questions asked</div></div>
+        <div class="stat-pill"><div class="num" id="stat-cards">0</div><div class="lbl">flashcards made</div></div>
+      </div>
+
+      <div class="grid-4">
+        <div class="feature-card" onclick="showView('tutor')">
+          <div class="icon blue">🤖</div>
+          <h3>Ask the AI Tutor</h3>
+          <p>Stuck on a question? Ask in plain English and get an explanation, not just an answer.</p>
+        </div>
+        <div class="feature-card" onclick="showView('flashcards')">
+          <div class="icon mauve">📸</div>
+          <h3>Photo → Flashcards</h3>
+          <p>Snap a photo of your notes and turn them into flashcards for quick revision.</p>
+        </div>
+        <div class="feature-card" onclick="showView('summary')">
+          <div class="icon green">📝</div>
+          <h3>Smart Summary</h3>
+          <p>Paste in a big chunk of notes and get the key points back in seconds.</p>
+        </div>
+        <div class="feature-card" onclick="showView('streak')">
+          <div class="icon gold">🔥</div>
+          <h3>Study Streak</h3>
+          <p>Study a little each day and build a streak — small wins add up.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AI TUTOR ===== -->
+    <section class="view hidden" id="view-tutor">
+      <div class="page-head">
+        <h1>Ask the AI Tutor</h1>
+        <p>Pick a subject, type your question, and SnapBot will explain it — not just give you the answer.</p>
+      </div>
+      <div class="tutor-layout">
+        <div>
+          <label for="tutor-subject">Subject</label>
+          <select id="tutor-subject">
+            <option value="general">General / Not sure</option>
+            <option value="maths">Maths</option>
+            <option value="english">English</option>
+            <option value="science">Science</option>
+            <option value="history">History</option>
+          </select>
+        </div>
+        <button class="btn btn-outline btn-sm" style="margin-top:19px;" onclick="clearChat()">Clear chat</button>
+      </div>
+      <div class="chat-window" id="chat-window">
+        <div class="bubble bot"><b>SnapBot:</b> Hey! Pick a subject above, then ask me anything you're stuck on — even "I don't get where to start" counts as a question. 🙂</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Type your question..." onkeydown="if(event.key==='Enter'){askBot();}">
+        <button class="btn btn-primary" onclick="askBot()">Send →</button>
+      </div>
+    </section>
+
+    <!-- ===== FLASHCARDS ===== -->
+    <section class="view hidden" id="view-flashcards">
+      <div class="page-head">
+        <h1>Photo → Flashcards</h1>
+        <p>Upload a photo of your notes, choose a subject, and get an instant flashcard set. Click a card to flip it.</p>
+      </div>
+      <div class="card">
+        <label>Upload a photo of your notes</label>
+        <div class="upload-box" onclick="document.getElementById('file-input').click()">
+          <div id="upload-text">📷 Click to choose an image (or just try the demo below)</div>
+          <input type="file" id="file-input" accept="image/*" class="hidden" onchange="previewImage(event)">
+          <img id="preview-img" class="hidden">
+        </div>
+        <div class="flash-controls">
+          <div>
+            <label for="flash-subject">Subject</label>
+            <select id="flash-subject">
+              <option value="maths">Maths</option>
+              <option value="english">English</option>
+              <option value="science">Science</option>
+              <option value="history">History</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" onclick="generateFlashcards()">✨ Generate Flashcards</button>
+        </div>
+      </div>
+      <div class="flash-grid" id="flash-grid"></div>
+    </section>
+
+    <!-- ===== SMART SUMMARY ===== -->
+    <section class="view hidden" id="view-summary">
+      <div class="page-head">
+        <h1>Smart Summary</h1>
+        <p>Paste a big chunk of notes or a textbook page and get the key points back.</p>
+      </div>
+      <div class="card">
+        <label for="summary-input">Paste your notes</label>
+        <textarea id="summary-input" placeholder="Paste a paragraph or two here..."></textarea>
+        <button class="btn btn-primary" style="margin-top:12px;" onclick="generateSummary()">Summarise for me →</button>
+        <div class="summary-output" id="summary-output">Your key points will appear here.</div>
+      </div>
+    </section>
+
+    <!-- ===== STUDY STREAK ===== -->
+    <section class="view hidden" id="view-streak">
+      <div class="page-head">
+        <h1>Study Streak</h1>
+        <p>Show up a little each day — your streak is proof you're moving forward.</p>
+      </div>
+      <div class="card">
+        <div class="streak-hero">
+          <div class="streak-flame">🔥</div>
+          <div>
+            <div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:26px;" id="streak-num">0 days</div>
+            <div style="color:var(--muted);font-size:13.5px;">Keep it up — consistency beats cramming.</div>
+            <button class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="markToday()">✅ I studied today</button>
+          </div>
+        </div>
+        <div class="week-grid" id="week-grid"></div>
+        <div class="badges" id="badges"></div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <label for="theme-select">Reward: choose your app colour theme</label>
+        <select id="theme-select" onchange="setTheme(this.value)">
+          <option value="blue">Classic Blue</option>
+          <option value="green">Forest Green</option>
+          <option value="mauve">Mauve</option>
+          <option value="gold">Sunset Gold</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS ===== -->
+    <section class="view hidden" id="view-settings">
+      <div class="page-head">
+        <h1>Settings</h1>
+        <p>Manage your account and app preferences.</p>
+      </div>
+      <div class="settings-grid">
+        <div class="card">
+          <h3 style="margin-top:0;">Account details</h3>
+          <label for="set-name">Name</label>
+          <input type="text" id="set-name">
+          <label for="set-email">Email</label>
+          <input type="email" id="set-email">
+          <button class="btn btn-primary" style="margin-top:14px;" onclick="saveSettings()">Save changes</button>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">Preferences</h3>
+          <div class="toggle-row">
+            <span>Daily streak reminder</span>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <span>Sound effects</span>
+            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <span>Simplified mode (extra encouragement)</span>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
